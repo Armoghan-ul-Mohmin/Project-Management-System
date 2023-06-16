@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap Css -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+
+    <!-- Theme Css -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/theme.css') }}">
+
+    <!-- Custom Css -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
+
+    <title>Project Management System | {{Title}}</title>
+</head>
+
+<!-- Body Content Starts -->
+{% block body %} {% endblock %}
+<!-- Body Content Ends -->
+
+<!-- Bootstrap Js -->
+<script src="{{ url_for('static', filename='js/bootstrap.bundle.js') }}"></script>
+
+<!-- Custom Js -->
+<script src="{{ url_for('static', filename='js/custom.js') }}"></script>
+
+<body>
+
+</body>
+
+</html>
