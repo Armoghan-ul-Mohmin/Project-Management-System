@@ -1,14 +1,19 @@
 from flask import Flask, render_template, session, redirect, request, flash, url_for, jsonify
+from flask_socketio import SocketIO
 import sqlite3
 import secrets
 from datetime import datetime
 from math import ceil
+import math
+
 
 
 app = Flask(__name__)
 
 # Generate a random secret key
 secret_key = secrets.token_hex(16)  # Generate a random 32-character hexadecimal string
+
+socketio = SocketIO(app)
 
 # Set the secret key for the session
 app.secret_key = secret_key
@@ -98,6 +103,34 @@ def dashboard():
         # User is not logged in, redirect to login page
         return redirect('/login')
 
+@socketio.on('connect')
+def handle_connect():
+    # Send initial data to the client
+    emit('initial_data', {'message': 'Connected successfully!'})
+
+@socketio.on('update_progress')
+def handle_update_progress(data):
+    # Handle progress update from the client
+    progress = data['progress']
+    
+    # Perform any necessary operations with the progress data
+    # For example, you can update the progress in the database or trigger other actions
+    
+    # Broadcast the updated progress to all connected clients
+    emit('progress_updated', {'progress': progress}, broadcast=True)
+
+
+# API endpoints for data retrieval
+@app.route('/api/projects')
+def get_projects():
+    # Retrieve project data from the database
+    # Format the data as needed
+    projects = [
+        {'id': 1, 'name': 'Project 1', 'progress': 60},
+        {'id': 2, 'name': 'Project 2', 'progress': 40},
+        # Add more project data
+    ]
+    return jsonify(projects)
 
 # Route for ToDo page
 @app.route("/todo", methods=["GET", "POST"])
@@ -232,6 +265,115 @@ def changepassword():
 
         return render_template('passwd.html', username=username)
 
+    else:
+        # User is not logged in, redirect to login page
+        return redirect('/login')
+
+#  Route for Projects
+@app.route('/project', methods=['GET', 'POST'])
+def project():
+    # Check if the user is logged in
+    if session.get('logged_in'):
+        username = session.get('username')
+        
+        if request.method == 'POST':
+            conn = sqlite3.connect('static/DB/Project_Management_System.db')
+            cursor = conn.cursor()
+            name = request.form['name']
+            description = request.form['description']
+            cursor.execute("INSERT INTO projects (UserName, name, description) VALUES (?, ?, ?)",
+               (session['username'], name, description))
+
+            conn.commit()
+            conn.close()
+            return redirect(url_for('project'))
+        
+        # Fetch data from the database
+        conn = sqlite3.connect('static/DB/Project_Management_System.db')
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM projects WHERE username=?", (username,))
+        projects = cursor.fetchall()
+        conn.close()
+
+        # Calculate total pages (assuming 10 projects per page)
+        total_projects = len(projects)
+        projects_per_page = 10
+        total_pages = math.ceil(total_projects / projects_per_page)
+
+        return render_template('project.html', username=username, projects=projects, total_pages=total_pages)
+    else:
+        # User is not logged in, redirect to login page
+        return redirect('/login')
+
+
+# Route for Tasks
+@app.route('/tasks', methods=['GET', 'POST'])
+def tasks():
+    # Check if the user is logged in
+    if session.get('logged_in'):
+        username = session.get('username')
+
+        if request.method == 'POST':
+            conn = sqlite3.connect('static/DB/Project_Management_System.db')
+            cursor = conn.cursor()
+            taskName = request.form['taskName']
+            taskDesc = request.form['taskDesc']
+            cursor.execute("INSERT INTO tasks (UserName, taskName, taskDesc) VALUES (?, ?, ?)",
+                           (session['username'], taskName, taskDesc))
+            conn.commit()
+            conn.close()
+            return redirect(url_for('tasks'))
+
+        # Fetch data from the database
+        conn = sqlite3.connect('static/DB/Project_Management_System.db')
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM tasks WHERE UserName=?", (username,))
+        tasks = cursor.fetchall()
+        conn.close()
+
+        # Calculate total pages (assuming 10 tasks per page)
+        total_tasks = len(tasks)
+        tasks_per_page = 10
+        total_pages = math.ceil(total_tasks / tasks_per_page)
+
+        return render_template('tasks.html', username=username, tasks=tasks, total_pages=total_pages)
+    else:
+        # User is not logged in, redirect to login page
+        return redirect('/login')
+
+
+# Route for Teams
+@app.route('/teams', methods=['GET', 'POST'])
+def teams():
+    # Check if the user is logged in
+    if session.get('logged_in'):
+        username = session.get('username')
+
+        if request.method == 'POST':
+            conn = sqlite3.connect('static/DB/Project_Management_System.db')
+            cursor = conn.cursor()
+            teamName = request.form['teamName']
+            teamDesc = request.form['teamDesc']
+            teamMembers = request.form['teamMembers']
+            cursor.execute("INSERT INTO teams (UserName, teamName, teamDesc, teamMembers) VALUES (?, ?, ?, ?)",
+                           (session['username'], teamName, teamDesc, teamMembers))
+            conn.commit()
+            conn.close()
+            return redirect(url_for('teams'))
+
+        # Fetch data from the database
+        conn = sqlite3.connect('static/DB/Project_Management_System.db')
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM teams WHERE UserName=?", (username,))
+        teams = cursor.fetchall()
+        conn.close()
+
+        # Calculate total pages (assuming 10 teams per page)
+        total_teams = len(teams)
+        teams_per_page = 10
+        total_pages = math.ceil(total_teams / teams_per_page)
+
+        return render_template('teams.html', username=username, teams=teams, total_pages=total_pages)
     else:
         # User is not logged in, redirect to login page
         return redirect('/login')

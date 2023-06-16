@@ -1,0 +1,78 @@
+{% extends "layout2.html" %}
+{% block body %}
+
+<body>
+
+    <div class="container">
+        <div class="container d-flex justify-content-between align-items-center mt-4">
+            <h1 class="my-0">Teams</h1>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">
+                Add Team
+            </button>
+        </div>
+        <hr>
+        <div class="container justify-content-center align-item-center align-text-center">
+            <div class="card text-white bg-primary mb-3">
+                <div class="card-body">
+                    <table class="table table-striped">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Team Name</th>
+                                <th>Description</th>
+                                <th>Members</th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-secondary">
+                            {% for team in teams %}
+                            <tr>
+                                <td>{{ team[2] }}</td>
+                                <td>{{ team[3] }}</td>
+                                <td>{{ team[4] }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Add Team Modal -->
+    <div class="modal" id="myModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add Team</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ url_for('teams') }}" method="POST">
+                        <div class="form-group">
+                            <label for="teamName" class="mb-2">Team Name:</label>
+                            <input type="text" name="teamName" id="teamName" class="form-control">
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label for="teamDesc" class="mb-2">Description:</label>
+                            <textarea name="teamDesc" id="teamDesc" class="form-control"></textarea>
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label for="teamMembers" class="mb-2">Members:</label>
+                            <input type="text" name="teamMembers" id="teamMembers" class="form-control">
+                        </div>
+                        <br>
+                        <br>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Add Team</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</body>
+{% endblock %}

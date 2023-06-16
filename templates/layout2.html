@@ -5,6 +5,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+    <!-- Font Awsome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
     <!-- Bootstrap Css -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}" />
 
@@ -64,27 +67,53 @@
 
     <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
         <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasExampleLabel">Offcanvas</h5>
+            <div class="text-center">
+                <h4 class="sidebar-brand">
+                    <img src="{{ url_for('static', filename='img/logo.png') }}" alt="" width="100" height="100">
+                </h4>
+            </div>
             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
-        <div class="offcanvas-body">
-            <div>
-                Some text as placeholder. In real life you can have the elements you have chosen. Like, text, images,
-                lists,
-                etc.
-            </div>
-            <div class="dropdown mt-3">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                    data-bs-toggle="dropdown">
-                    Dropdown button
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <li><a class="dropdown-item" href="/todo">Todo</a></li>
-                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                </ul>
-            </div>
+        <hr>
+        <!-- <div class="offcanvas-body"> -->
+        <div class="container mx-2">
+            <a class="nav-link" href="/dashboard">
+                <i class="fas fa-fw fa-tachometer-alt"></i>
+                <span>Dashboard</span></a>
         </div>
+        <hr>
+        <div class="container mx-2">
+            <a class="nav-link" href="/todo">
+                <i class="fas fa-fw fa-list-ol"></i>
+                <span>To Do list</span></a>
+        </div>
+        <hr>
+        <div class="container mx-2">
+            <a class="nav-link" href="/project">
+                <i class="fas fa-regular fa-folder"></i>
+                <span>Projeects</span></a>
+        </div>
+        <hr>
+        <div class="container mx-2">
+            <a class="nav-link" href="/tasks">
+                <i class="fas fa-tasks"></i>
+                <span>Task</span></a>
+        </div>
+        <hr>
+        <div class="container mx-2">
+            <a class="nav-link" href="/teams">
+                <i class="fas fa-user-friends"></i>
+                <span>Team</span></a>
+        </div>
+        <hr>
+        <div class="container mx-2">
+            <a class="nav-link" href="/version">
+                <i class="fas fa-code-branch"></i>
+                <span>Version Control</span></a>
+        </div>
+        <hr>
+    </div>
+    </div>
     </div>
 
     <!-- Sidebar -->
