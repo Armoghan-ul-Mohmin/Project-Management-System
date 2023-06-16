@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+{% block body %}
+
+<body>
+
+    <!-- Login Form Starts -->
+    <div class="container text-center">
+        <div class="h1 my-5 mx-5">
+            <hr>
+            Project Management System Login
+            <hr>
+        </div>
+    </div>
+
+    <!-- Error Message -->
+
+    <div class="container">
+        {% if error_message %}
+        <div class="alert alert-dismissible alert-primary" role="alert">
+            {{ error_message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="container">
+        <form action="{{ url_for('login') }}" method="POST">
+            <div class="form-group">
+                <label for="username" class="mb-2"><b>Username:</b></label>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="floatingInput" name="username" placeholder="username"
+                        required>
+                </div>
+                <label for="password" class="mb-2"><b>Password:</b></label>
+                <div class="form-floating">
+                    <input type="password" class="form-control" id="floatingPassword" name="password"
+                        placeholder="password" required>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary my-2">Submit</button>
+        </form>
+    </div>
+    <!-- Login Form Ends -->
+
+</body>
+{% endblock %}

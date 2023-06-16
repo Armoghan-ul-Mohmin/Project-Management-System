@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Bootstrap Css -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}" />
+
+    <!-- Theme Css -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/theme.css') }}" />
+
+    <!-- Custom Css -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}" />
+
+    <!-- Fav Icon  -->
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='icon/home.png') }}">
+
+    <title>Project Management System | {{title}}</title>
+</head>
+
+<body>
+
+    <!--  Nav Bar  -->
+    <nav class="navbar navbar-expand navbar-light bg-primary topbar mb-4 static-top shadow">
+        <div class="container-fluid">
+            <!-- Navbar brand -->
+            <a class="navbar-brand" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button"
+                aria-controls="offcanvasExample">
+                <h5 class="text-light"><b> -> Project Management System</b></h5>
+            </a>
+
+            <!-- Navbar toggler button -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
+                aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Collapsible content -->
+            <div class="collapse navbar-collapse justify-content-end" id="navbarText">
+                <!-- Dropdown menu -->
+                <div class="dropdown">
+                    <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
+                        id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="{{ url_for('static', filename='img/profile.png') }}" alt="" width="32" height="32"
+                            class="rounded-circle me-2">
+                        <strong>
+                            {{username}}
+                        </strong>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="/changepasswd">Change Password</a></li>
+                        <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!--  Nav Bar  -->
+
+    <!-- Sidebar -->
+
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasExampleLabel">Offcanvas</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div>
+                Some text as placeholder. In real life you can have the elements you have chosen. Like, text, images,
+                lists,
+                etc.
+            </div>
+            <div class="dropdown mt-3">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                    data-bs-toggle="dropdown">
+                    Dropdown button
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <li><a class="dropdown-item" href="/todo">Todo</a></li>
+                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sidebar -->
+
+    <!-- Body Content Starts -->
+
+    {% block body %} {% endblock %}
+
+    <!-- Body Content Ends -->
+
+    <!-- Bootstrap Js -->
+    <script src="{{ url_for('static', filename='js/bootstrap.bundle.js') }}"></script>
+
+    <!-- Custom Js -->
+    <script src="{{ url_for('static', filename='js/custom.js') }}"></script>
+
+</body>
+
+</html>

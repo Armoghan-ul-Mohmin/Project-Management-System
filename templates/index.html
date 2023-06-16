@@ -2,14 +2,51 @@
 {% block body %}
 
 <body>
-    <div class="container">
-        <div class="h1">
-            <center>
-                <b>
-                    Armoghan.
-                </b>
-            </center>
-        </div>
+    <!-- Nav Bar Starts  -->
+    <div class="">
+        <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/">
+                    <div class="h3">
+                        Project Management System
+                    </div>
+                </a>
+            </div>
+        </nav>
     </div>
+    <!-- Nav Bar Ends -->
+
+    <!-- Body Starts  -->
+    <div class="container my-5">
+        <div class="row my-5">
+            <div class="col-md-6 text-center">
+                <img src="{{ url_for('static', filename='img/index.png') }}" class="img-fluid"
+                    alt="Project Management System">
+            </div>
+            <div class="col-md-6">
+                <div class="container">
+                    <h1><b>Welcome to the Project Management System!</b></h1>
+                    <p>Efficiently manage your projects, tasks, and team.</p>
+                    <p>The Project Management System is a powerful tool designed to streamline project management
+                        processes.
+                        From planning and organizing tasks to collaborating with your team, our system provides an
+                        intuitive
+                        interface to ensure your projects are delivered on time and within budget.</p>
+                    <p>Key features of our system include:</p>
+                    <ul>
+                        <li>Project creation and management</li>
+                        <li>Task assignment and tracking</li>
+                        <li>Team collaboration and communication</li>
+                        <li>Real-time progress monitoring</li>
+                        <li>Document sharing and version control</li>
+                    </ul>
+                    <p>Sign up today to experience the benefits of effective project management!</p>
+                    <div class="text-center align-items-center justify-content-center">
+                        <a href="/login" class="btn btn-info text-white">Login</a>
+                        <a href="/register" class="btn btn-primary text-white">Register</a>
+                    </div>
+                </div>
+            </div>
+        </div>
 </body>
 {% endblock %}
