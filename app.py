@@ -1,5 +1,4 @@
 from flask import Flask, render_template, session, redirect, request, flash, url_for, jsonify
-from flask_socketio import SocketIO
 import sqlite3
 import secrets
 from datetime import datetime
@@ -12,8 +11,6 @@ app = Flask(__name__)
 
 # Generate a random secret key
 secret_key = secrets.token_hex(16)  # Generate a random 32-character hexadecimal string
-
-socketio = SocketIO(app)
 
 # Set the secret key for the session
 app.secret_key = secret_key
