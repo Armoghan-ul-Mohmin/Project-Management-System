@@ -98,39 +98,34 @@ def dashboard():
     # Check if the user is logged in
     if session.get('logged_in'):
         username = session.get('username')
-        return render_template('dashboard.html', username=username)
+        
+        # Fetch data from the database
+        conn = sqlite3.connect('static/DB/Project_Management_System.db')
+        cursor = conn.cursor()
+
+        # Get the number of tasks for the user
+        cursor.execute("SELECT COUNT(*) FROM tasks WHERE UserName=?", (username,))
+        num_tasks = cursor.fetchone()[0]
+
+        # Get the number of to-do lists for the user
+        cursor.execute("SELECT COUNT(*) FROM ToDo WHERE UserName=?", (username,))
+        num_todolists = cursor.fetchone()[0]
+
+        # Get the number of teams for the user
+        cursor.execute("SELECT COUNT(*) FROM teams WHERE UserName=?", (username,))
+        num_teams = cursor.fetchone()[0]
+
+        # Get the number of projects for the user
+        cursor.execute("SELECT COUNT(*) FROM projects WHERE UserName=?", (username,))
+        num_projects = cursor.fetchone()[0]
+
+        conn.close()
+
+        return render_template('dashboard.html', username=username, num_tasks=num_tasks, num_todolists=num_todolists, num_teams=num_teams, num_projects=num_projects)
     else:
         # User is not logged in, redirect to login page
         return redirect('/login')
 
-@socketio.on('connect')
-def handle_connect():
-    # Send initial data to the client
-    emit('initial_data', {'message': 'Connected successfully!'})
-
-@socketio.on('update_progress')
-def handle_update_progress(data):
-    # Handle progress update from the client
-    progress = data['progress']
-    
-    # Perform any necessary operations with the progress data
-    # For example, you can update the progress in the database or trigger other actions
-    
-    # Broadcast the updated progress to all connected clients
-    emit('progress_updated', {'progress': progress}, broadcast=True)
-
-
-# API endpoints for data retrieval
-@app.route('/api/projects')
-def get_projects():
-    # Retrieve project data from the database
-    # Format the data as needed
-    projects = [
-        {'id': 1, 'name': 'Project 1', 'progress': 60},
-        {'id': 2, 'name': 'Project 2', 'progress': 40},
-        # Add more project data
-    ]
-    return jsonify(projects)
 
 # Route for ToDo page
 @app.route("/todo", methods=["GET", "POST"])
@@ -385,6 +380,13 @@ def Logout():
     # Clear the session data
     session.clear()
     return redirect('/login')
+
+
+# 404 Page
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
+
 
 # Run the Flask application in debug mode
 if __name__ == '__main__':
